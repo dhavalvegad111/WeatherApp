@@ -1,0 +1,201 @@
+:root{
+    --font-primary:"Montserrat", sans-serif;
+    --font-secondary:"Poppins", sans-serif;
+}
+
+.fontPrimary{font-family:var(--font-primary)}
+.fontSecondary{font-family:var(--font-secondary)}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    font-family: var(--font-secondary);
+}
+
+.weatherContainer {
+    margin: 2rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    background-color: whitesmoke;
+    width: 400px;
+}
+
+#weatherForm input {
+    border: none;
+    padding: 12px;
+    color: black;
+    outline: none;
+    font-size: 1rem;
+    font-family: 'Segoe UI', sans-serif;
+    background: transparent;
+    margin-right: 15px;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
+
+#weatherForm ul li {
+    list-style: none;
+}
+
+.search {
+    width: 100%;
+}
+
+.searchBtn {
+    background: transparent;
+    border: none;
+}
+
+.searchBtn ul li {
+    list-style: none;
+    font-size: 1.2rem;
+}
+
+.searchBtn ul li .go{
+    cursor: pointer;
+    padding: 15px;
+    color: #fff;
+    border-radius: 15px;
+    background: #111;
+    vertical-align: middle;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
+
+#weatherForm {
+    display: flex;
+    justify-content: space-around;
+}
+
+.bottom{
+    font-weight: 400;
+    padding-top: 10px;
+    color: green;
+    font-size: 14px;
+}
+.appHeading {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+#city {
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.weatherContainer img {
+    width: 60px;
+    height: 60px;
+    margin: 5px 0;
+}
+
+#temp {
+    font-size: 2.5rem;
+}
+
+#temp sup {
+    font-size: 1.5rem;
+}
+#feelsLike{
+    margin-bottom: 10px;
+}
+.minmaxWrapper span:nth-child(2){
+    margin:0 10px;
+}
+
+.weatherMain {
+    font-weight: 600;
+}
+
+#country,
+#feelsLike,
+#minTemp,
+#maxTemp,
+#windSpeed,
+#humidity,
+#pressure,
+#todayTime,
+.todayDates {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+hr.divider{
+    margin:10px 0;
+}
+
+.fa-magnifying-glass {
+    font-size: 25px;
+    cursor: pointer;
+    padding: 15px;
+    background: whitesmoke;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+    transition: 0.2s all linear;
+}
+
+.fa-magnifying-glass:hover,
+.fa-magnifying-glass.active {
+    background: #000;
+    color: #fff;
+}
+
+.outputBox {
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
+
+/* Utility Classes */
+.d-flex {
+    display: flex;
+}
+
+.justify-space-around {
+    justify-content: space-around;
+}
+
+.justify-space-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.f-col {
+    flex-direction: column;
+}
+
+/* Media Query for Responsive */
+@media screen and (max-width: 307px) {
+    #weatherForm {
+        flex-direction: column;
+    }
+
+    #weatherForm input {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+}

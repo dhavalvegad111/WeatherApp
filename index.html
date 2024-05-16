@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="icon" type="image/x-icon" href="/Images/favicon.png">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Denk+One&family=Jersey+10+Charted&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poiret+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sirin+Stencil&display=swap" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <!-- Main Container -->
+    <div class="weatherContainer">
+        <h2 class="appHeading fontPrimary animate__animated animate__fadeIn animate__infinite infinite">WEATHER APP</h2>
+        <!-- Input div for city name -->
+        <div class="search">
+            <form action="" id="weatherForm" autocomplete="off">
+                <input type="text" name="" id="weatherInput" placeholder="Enter Place...">
+                <button class="searchBtn" type="submit">
+                    <ul>
+                        <li><span class="go">GO</span></li>
+                    </ul>
+                </button>
+            </form>
+            <div class="bottom">* Enter place to get weather information.</div>
+        </div>
+        <!-- OutputBox -->
+        <div class="outputBox">
+            <div style="display: block;">
+                <h2 id="city" style="display: inline-block;"></h2>
+                <div id="country" style="display: inline-block;"></div>
+            </div>
+            <img src="." alt="" id="weatherImage">
+            <p class="weatherMain" id="weatherMain"></p>
+            <h2 id="temp"><span class="temp"></span></h2>
+            <div id="feelsLike"><span class="feelsLike"></span></div>
+            <div class="minmaxWrapper display:flex">
+                <span id="minTemp"></span>
+                <span>|</span>
+                <span id="maxTemp"></span>
+            </div>
+            <hr class="divider" color="#e5e5e5" />
+            <div id="humidity"></div>
+            <div id="pressure"></div>
+            <div id="windSpeed"></div>
+            <hr class="divider" color="#e5e5e5" />
+            <span class="todayDates"></span>,
+            <span id="todayTime"></span>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        const cityName = document.querySelector('#weatherInput');
+        const searchBtn = document.querySelector('#searchBtn');
+        const form = document.getElementById('weatherForm');
+        const myCity = document.getElementById('city');
+        const country = document.getElementById('country');
+        const image = document.getElementById('weatherImage');
+        const weather = document.getElementById('weatherMain');
+        const temp = document.querySelector('.temp');
+        const feelsLike = document.querySelector('#feelsLike');
+        const dates = document.querySelector('.todayDates');
+        const times = document.getElementById('todayTime');
+        const wind = document.querySelector('#windSpeed');
+        const minTemp = document.querySelector('#minTemp');
+        const maxTemp = document.querySelector('#maxTemp');
+        const humidity = document.querySelector('#humidity');
+        const pressure = document.querySelector('#pressure');
+
+        let date = new Date();
+
+        $('.outputBox').hide();
+
+        // Function work when user input the city name
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (cityName.value == '') {
+                alert("Please enter place to get weather information...");
+            } else {
+                $('.bottom').hide();
+                $('.outputBox').show();
+
+                // Updating the city name
+                let city = cityName.value;
+                const myWeatherContainer = document.querySelector('.weatherContainer');
+                const apiID = `931f131dde3f4ae2fcbc3289fc646471`;
+
+                // API URL
+                let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiID}`
+
+                // fetching data from api
+                fetch(url).then((response) => {
+                    return response.json();
+                }).then((data) => {
+                    console.log(data)
+
+                    // convert country shortname
+                    const regionNamesInEnglish = new Intl.DisplayNames(['en'], { type: 'region' });
+
+                    const tempValue = data['main']['temp'];
+                    const country1 = regionNamesInEnglish.of(data['sys']['country']);
+                    const weatherMain = data['weather'][0]['main'];
+                    const feelsLike1 = data['main']['feels_like'];
+                    const minTemp1 = data['main']['temp_min'];
+                    const maxTemp1 = data['main']['temp_max'];
+                    const humidity1 = data['main']['humidity'];
+                    const pressure1 = data['main']['pressure'];
+                    const windSpeed1 = data['wind']['speed'];
+
+                    // Updating DOM
+                    myCity.innerHTML = city;
+                    country.innerHTML = `(${country1})`;
+                    weather.innerHTML = `${weatherMain}`
+                    temp.innerHTML = `${tempValue}`
+                    feelsLike.innerHTML = `(Feels Like: ${feelsLike1}<span><sup>o</sup> C</span>)`
+                    minTemp.innerHTML = `Min: ${minTemp1}<span><sup>o</sup> C</span>`
+                    maxTemp.innerHTML = `Max: ${maxTemp1}<span><sup>o</sup> C</span>`
+                    humidity.innerHTML = `Humidity: ${humidity1}`
+                    pressure.innerHTML = `Pressure: ${pressure1}`
+                    wind.innerHTML = `Wind Speed: ${windSpeed1}`
+                    temp.innerHTML = `${tempValue}<span><sup>o</sup> C</span>`;
+
+                    // Updating images according to whether
+                    if (weatherMain == 'Sunny') {
+                        image.src = `./img/sunny.png`
+                        // myWeatherContainer.style.backgroundColor = '#ec6e4c'
+                    }
+                    if (weatherMain == 'Clear') {
+                        image.src = `./img/sunny.png`
+                        // myWeatherContainer.style.backgroundColor = '#ec6e4c'
+                    }
+                    if (weatherMain == 'Clouds') {
+                        image.src = `./img/cloud.png`
+                        // myWeatherContainer.style.backgroundColor = '#86d3d3'
+                    }
+                    if (weatherMain == 'Rain') {
+                        image.src = `./img/rain.png`
+                        // myWeatherContainer.style.backgroundColor = '#494bcf'
+                    }
+                    if (weatherMain == 'Drizzle') {
+                        image.src = `./img/drizzle.png`
+                        // myWeatherContainer.style.backgroundColor = '#8ecfcf'
+                    }
+                    if (weatherMain == 'Haze') {
+                        image.src = `./img/haze.png`
+                        // myWeatherContainer.style.backgroundColor = '#d8ced2'
+                    }
+                    if (weatherMain == 'Smoke') {
+                        image.src = `./img/smoke.png`
+                        // myWeatherContainer.style.backgroundColor = '#d8ced2'
+                    }
+                    if (weatherMain == 'Mist') {
+                        image.src = `./img/mist.png`
+                        // myWeatherContainer.style.backgroundColor = '#d8ced2'
+                    }
+
+                    // Updating dates
+                    const currentMonth = date.getMonth();
+                    switch (currentMonth) {
+                        case 0:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 1:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 2:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 3:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 4:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 5:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 6:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 7:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 8:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 9:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 10:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                        case 11:
+                            dates.innerHTML = `${date.toDateString()}`
+                            break;
+                    }
+
+                    function getDateFromHours(time) {
+                        time = time.split(':');
+                        let now = new Date();
+                        return new Date(now.getFullYear(), now.getMonth(), now.getDate(), ...time);
+                    }
+                    console.log(getDateFromHours('01:12:33'));
+
+
+                    // Updating times       
+                    function updateTimes() {
+                        const a = document.getElementById('todayTime')
+                        let eDate = new Date();
+                        let hours = eDate.getHours();
+                        let minutes = eDate.getMinutes();
+                        let seconds = eDate.getSeconds();
+                        let meridiem = hours >= 12 ? "PM" : "AM";
+
+                        if (hours == 0) { hours = 12; }
+                        if (hours > 12) { hours = hours - 12; }
+                        a.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${meridiem}`
+                    }
+                    updateTimes();
+                });
+                $('#weatherForm').trigger('reset');
+            }
+        })
+    </script>
+</body>
+
+</html>
